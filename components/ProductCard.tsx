@@ -7,6 +7,7 @@ import React from "react";
 import AddToWishlist from "./AddToWishlist";
 import { Title } from "./ui/text";
 import PriceView from "./PriceView";
+import AddToCartBtn from "./AddToCartBtn";
 
 const ProductCard = ({ product }: { product: Product }) => {
   return (
@@ -88,6 +89,7 @@ const ProductCard = ({ product }: { product: Product }) => {
         discount={product?.discount}
         className="text-sm"
       />
+      <AddToCartBtn product={product} className="w-36 rounded-full" />
     </div>
   );
 };
