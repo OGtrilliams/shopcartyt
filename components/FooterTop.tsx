@@ -10,7 +10,7 @@ interface ContactItemData {
 const data: ContactItemData[] = [
   {
     title: "Mailing Address",
-    subtitle: "P.O. Box #129 Syracuse, NY",
+    subtitle: "P.O. Box #129 \N Syracuse, NY",
     icon: (
       <MapPin className="h-6 w-6 text-gray-600 group-hover:text-primary transition-colors" />
     ),
@@ -52,7 +52,7 @@ const FooterTop = () => {
               {item?.title}
             </h3>
             <p className="text-gray-600 text-sm mt-1 group-hover:text-gray-900 hoverEffect">
-              {item.subtitle}
+              {item?.subtitle}
             </p>
           </div>
         </div>

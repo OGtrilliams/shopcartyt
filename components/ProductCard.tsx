@@ -5,7 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import React from "react";
 import AddToWishlist from "./AddToWishlist";
-import { Title } from "./ui/text";
+import Title from "./Title";
 import PriceView from "./PriceView";
 import AddToCartBtn from "./AddToCartBtn";
 
@@ -14,14 +14,16 @@ const ProductCard = ({ product }: { product: Product }) => {
     <div className="text-sm border-[1px] border-dark_blue/20 rounded-md bg-white group">
       <div className="relative group overflow-hidden bg-shop_light_bg">
         {product?.images && (
-          <Image
-            src={urlFor(product?.images[0]).url()}
-            alt="ProductImage"
-            loading="lazy"
-            width={700}
-            height={700}
-            className={`w-full h-64 object-contain overflow-hidden transition-transform bg-shop_light_bg hoverEffect ${product?.stock !== 0 ? "group-hover:scale-105" : "opacity-50"} `}
-          />
+          <Link href={`/product/${product?.slug?.current}`}>
+            <Image
+              src={urlFor(product?.images[0]).url()}
+              alt="ProductImage"
+              loading="lazy"
+              width={700}
+              height={700}
+              className={`w-full h-64 object-contain overflow-hidden transition-transform bg-shop_light_bg hoverEffect ${product?.stock !== 0 ? "group-hover:scale-105" : "opacity-50"} `}
+            />
+          </Link>
         )}
 
         <AddToWishlist product={product} />
@@ -78,7 +80,7 @@ const ProductCard = ({ product }: { product: Product }) => {
       <div className="flex items-center gap-2.5">
         <p className="font-medium capitalize">In stock</p>
         <p
-          className={`${product?.stock === 0 ? "text-red-600" : "text-shop_light_green/80 font-semibold "}`}
+          className={`${product?.stock === 0 ? "text-red-600" : "text-shop_dark_green/80 font-semibold "}`}
         >
           {(product?.stock as number) > 0 ? product?.stock : "unavailable"}
         </p>

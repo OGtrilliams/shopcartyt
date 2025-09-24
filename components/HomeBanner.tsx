@@ -19,10 +19,13 @@ const HomeBanner = () => {
           Buy Now
         </Link>
       </div>
-<div className="">
-  <Image src={banner_1} alt="banner_1" className="hidden md:inline-flex w-96"/>
-</div>
-
+      <div>
+        <Image
+          src={banner_1}
+          alt="banner_1"
+          className="hidden md:inline-flex w-96"
+        />
+      </div>
     </div>
   );
 };

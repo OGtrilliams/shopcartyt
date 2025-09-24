@@ -13,8 +13,8 @@ const NotFoundPage = () => {
             Looking for something?
           </h2>
           <p className="mt-2 text-sm text-gray-600">
-            We&apos;re sorry. The Web address you entered is not a functioning
-            page on our site.
+            We're sorry. The Web address you entered is not a functioning page
+            on our site.
           </p>
         </div>
         <div className="mt-8 space-y-6">
@@ -23,7 +23,7 @@ const NotFoundPage = () => {
               href="/"
               className="w-full flex items-center justify-center px-4 py-2 border border-transparent text-sm font-semibold rounded-md text-white bg-shop_dark_green/80 hover:bg-shop_dark_green focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-amazonOrangeDark hoverEffect"
             >
-              Go to Shopcart&apos;s home page
+              Go to Shopcart home page
             </Link>
             <Link
               href="/help"

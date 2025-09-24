@@ -34,7 +34,7 @@ const NoProductAvailable = ({
         transition={{ delay: 0.2, duration: 0.5 }}
         className="text-gray-600"
       >
-        We&apos;re sorry, but there are no products matching on{" "}
+        We're sorry, but there are no products matching on{" "}
         <span className="text-base font-semibold text-darkColor">
           {selectedTab}
         </span>{" "}
@@ -47,7 +47,7 @@ const NoProductAvailable = ({
         className="flex items-center space-x-2 text-shop_dark_green"
       >
         <Loader2 className="w-5 h-5 animate-spin" />
-        <span>We&apos;re restocking shortly</span>
+        <span>We're restocking shortly</span>
       </motion.div>
 
       <motion.p
