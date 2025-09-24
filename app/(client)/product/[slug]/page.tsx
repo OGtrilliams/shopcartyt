@@ -3,10 +3,14 @@ import Container from "@/components/Container";
 import FavoriteButton from "@/components/FavoriteButton";
 import ImageView from "@/components/ImageView";
 import PriceView from "@/components/PriceView";
+import ProductCharacteristics from "@/components/ProductCharacteristics";
 import { getProductBySlug } from "@/sanity/queries";
-import { StarIcon } from "lucide-react";
+import { CornerDownLeft, StarIcon, Truck } from "lucide-react";
 import React from "react";
-
+import { FaRegQuestionCircle } from "react-icons/fa";
+import { TbTruckDelivery } from "react-icons/tb";
+import { FiShare2 } from "react-icons/fi";
+import { RxBorderSplit } from "react-icons/rx";
 const SingleProductPage = async ({
   params,
 }: {
@@ -56,6 +60,52 @@ const SingleProductPage = async ({
         <div className="flex items-center gap-2.5 lg:gap-3">
           <AddToCartBtn product={product} />
           <FavoriteButton showProduct={true} product={product} />
+        </div>
+
+        <ProductCharacteristics product={product} />
+
+        <div className="flex flex-wrap items-center justify-between gap-2.5 border-b border-b-gray-200 py-5 -mt-2">
+          <div className="flex items-center gap-2 text-sm text-black hover:text-red-600 hoverEffect">
+            <RxBorderSplit className="text-lg" />
+            <p>Compare color</p>
+          </div>
+
+          <div className="flex items-center gap-2 text-sm text-black hover:text-reed-600 hoverEffect">
+            <FaRegQuestionCircle className="text-lg" />
+            <p>Ask a Question</p>
+          </div>
+          <div className="flex items-center gap-2 text-sm text-black hover:text-reed-600 hoverEffect">
+            <TbTruckDelivery />
+            <p>Delivery & Return</p>
+          </div>
+          <div className="flex items-center gap-2 text-sm text-black hover:text-reed-600 hoverEffect">
+            <FiShare2 className="text-lg" />
+            <p>Share</p>
+          </div>
+        </div>
+        <div className="flex flex-col">
+          <div className="border border-lightColor/25 border-b-0 p-3 flex items-center gap-2.5">
+            <Truck size={30} className="text-shop_orange" />
+            <div>
+              <p className="text-base font-semibold text-black">
+                Free Delivery
+              </p>
+              <p className="text-sm text-gray-500 underline underline-offset-2">
+                Enter your Postal code for Delivery Availability.
+              </p>
+            </div>
+          </div>{" "}
+        </div>
+
+        <div className="border border-lightColor/25 p-3 flex items-center gap-2.5">
+          <CornerDownLeft size={30} className="text-shop_orange" />
+          <div>
+            <p className="text-base font-semibold text-black">Free Returns</p>
+            <p className="text-sm text-gray-500 ">
+              Free 30days Delivery Returns.{" "}
+              <span className="underline underline-offset-2">Details</span>
+            </p>
+          </div>
         </div>
       </div>
     </Container>
