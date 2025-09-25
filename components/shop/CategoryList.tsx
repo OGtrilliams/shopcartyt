@@ -17,9 +17,12 @@ const CategoryList = ({
   return (
     <div className="w-full bg-white p-5">
       <Title className="text-base font-black">Product Categories</Title>
-      <RadioGroup>
+      <RadioGroup value={selectedCategory || ""} className="mt-2 space-y-1">
         {categories?.map((category) => (
           <div
+            onClick={() => {
+              setSelectedCategory(category?.slug?.current as string);
+            }}
             key={category?._id}
             className="flex items-center space-x-2 hover:cursor-pointer"
           >
@@ -30,7 +33,7 @@ const CategoryList = ({
             />
             <Label
               htmlFor={category?.slug?.current}
-              className={`${selectedCategory}`}
+              className={`${selectedCategory === category?.slug?.current ? "font-semibold text-shop_dark_green" : "font-normal"}`}
             >
               {category?.title}
             </Label>
