@@ -10,7 +10,7 @@ interface ContactItemData {
 const data: ContactItemData[] = [
   {
     title: "Mailing Address",
-    subtitle: "P.O. Box #129 \N Syracuse, NY",
+    subtitle: "123 Fake St.",
     icon: (
       <MapPin className="h-6 w-6 text-gray-600 group-hover:text-primary transition-colors" />
     ),
@@ -31,7 +31,7 @@ const data: ContactItemData[] = [
   },
   {
     title: "Email Us",
-    subtitle: "hello@trilliams.sh",
+    subtitle: "email@example.com",
     icon: (
       <Mail className="h-6 w-6 text-gray-600 group-hover:text-primary transition-colors" />
     ),
