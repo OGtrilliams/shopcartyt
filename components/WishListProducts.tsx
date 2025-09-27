@@ -8,6 +8,8 @@ import Link from "next/link";
 import toast from "react-hot-toast";
 import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
+import PriceFormatter from "./PriceFormatter";
+import AddToCartBtn from "./AddToCartBtn";
 
 const WishListProducts = () => {
   const [visibleProducts, setVisibleProducts] = useState(7);
@@ -65,12 +67,66 @@ const WishListProducts = () => {
                             ></Image>
                           </Link>
                         )}
+
+                        <p className="line-clamp-1">{product?.name}</p>
+                      </td>
+                      <td className="p-2 capitalize hidden md:table-cell">
+                        {product?.categories && (
+                          <p className="uppercase line-clamp-1 text-xs font-medium">
+                            {product.categories.map((cat) => cat).join(", ")}
+                          </p>
+                        )}
+                      </td>
+                      <td className="p-2 capitalize hidden md:table-cell">
+                        {product?.variant}
+                      </td>
+                      <td
+                        className={`p-2 w-24 ${
+                          (product?.stock as number) > 0
+                            ? "text-green-600"
+                            : "text-red-600"
+                        } font-medium text-sm hidden md:table-cell`}
+                      >
+                        {(product?.stock as number) > 0
+                          ? "In Stock"
+                          : "Out of Stock"}
+                      </td>
+                      <td className="p-2">
+                        <PriceFormatter amount={product?.price} />
+                      </td>
+                      <td className="p-2">
+                        <AddToCartBtn product={product} className="w-full" />
                       </td>
                     </tr>
                   ))}
               </tbody>
             </table>
           </div>
+
+          <div className="flex items-center gap-5">
+            {visibleProducts < favoriteProduct?.length && (
+              <div className="my-5">
+                <Button variant="outline" onClick={loadMore}>
+                  Load more
+                </Button>
+              </div>
+            )}
+            {visibleProducts > 10 && (
+              <div className="my-5">
+                <Button
+                  onClick={() => setVisibleProducts(10)}
+                  variant="outline"
+                >
+                  Load less
+                </Button>
+              </div>
+            )}
+          </div>
+          {favoriteProduct?.length > 0 && (
+            <Button className="m-2.5 border px-6 py-3 border-shop_dark_green/50 font-semibold text-white hover:text-shop_dark_green hover:border-shop_dark_green hover:bg-shop_light_green/70 rounded-md hoverEffect">
+              Reset Wishlist
+            </Button>
+          )}
         </>
       ) : (
         <div className="flex min-h-[400px] flex-col items-center justify-center space-y-6 px-4 text-center">
