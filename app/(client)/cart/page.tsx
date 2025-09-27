@@ -77,6 +77,9 @@ const CartPage = () => {
       toast.success("Cart emptied successfully.");
     }
   };
+
+  const handleCheckout = () => {};
+
   return (
     <div className="bg-gray-50 pb-52 md:pb-10">
       {isSignedIn ? (
@@ -214,6 +217,8 @@ const CartPage = () => {
                         <Button
                           className="w-full rounded-full font-semibold tracking-wide capitalize hoverEffect"
                           size="lg"
+                          disabled={loading}
+                          onClick={handleCheckout}
                         >
                           {loading ? "Please wait..." : "Proceed to checkout"}
                         </Button>
@@ -270,6 +275,34 @@ const CartPage = () => {
                 <div className="md:hidden fixed bottom-0 left-0 w-full bg-white pt-2">
                   <div className="bg-white p-4 rounded-lg border mx-4">
                     <h2>Order Summary</h2>
+                    <div className="space-y-4">
+                      <div className="flex items-center justify-between">
+                        <span>Subtotal</span>{" "}
+                        <PriceFormatter amount={getSubTotalPrice()} />
+                      </div>
+                      <div className="flex items-center justify-between">
+                        <span>Discount</span>
+                        <PriceFormatter
+                          amount={getSubTotalPrice() - getTotalPrice()}
+                        />
+                      </div>
+                      <Separator />
+                      <div className="flex items-center justify-between font-semibold text-lg">
+                        <span>Total:</span>
+                        <PriceFormatter
+                          amount={getTotalPrice()}
+                          className="font-bold text-lg text-black"
+                        />
+                      </div>
+                      <Button
+                        className="w-full rounded-full font-semibold tracking-wide capitalize hoverEffect"
+                        size="lg"
+                        disabled={loading}
+                        onClick={handleCheckout}
+                      >
+                        {loading ? "Please wait..." : "Proceed to checkout"}
+                      </Button>
+                    </div>
                   </div>
                 </div>
               </div>

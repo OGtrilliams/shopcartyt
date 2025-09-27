@@ -19,6 +19,16 @@ const WishListProducts = () => {
     setVisibleProducts((prev) => Math.min(prev + 5, favoriteProduct.length));
   };
 
+  const handleResetWishlist = () => {
+    const confirmReset = window.confirm(
+      "Are you sure you want to reset your wishlist?"
+    );
+    if (confirmReset) {
+      resetFavorite();
+      toast.success("Wishlist reset successfully");
+    }
+  };
+
   return (
     <Container>
       {favoriteProduct?.length > 0 ? (
@@ -123,7 +133,12 @@ const WishListProducts = () => {
             )}
           </div>
           {favoriteProduct?.length > 0 && (
-            <Button className="m-2.5 border px-6 py-3 border-shop_dark_green/50 font-semibold text-white hover:text-shop_dark_green hover:border-shop_dark_green hover:bg-shop_light_green/70 rounded-md hoverEffect">
+            <Button
+              onClick={handleResetWishlist}
+              className="mb-5 font-semibold"
+              variant="destructive"
+              size="lg"
+            >
               Reset Wishlist
             </Button>
           )}
