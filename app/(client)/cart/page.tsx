@@ -7,6 +7,10 @@ import ProductSideMenu from "@/components/ProductSideMenu";
 import QuantityBtn from "@/components/QuantityBtn";
 import Title from "@/components/Title";
 import { Button } from "@/components/ui/button";
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Separator } from "@/components/ui/separator";
 import {
   Tooltip,
   TooltipContent,
@@ -14,13 +18,14 @@ import {
   TooltipTrigger,
 } from "@/components/ui/tooltip";
 import { Address } from "@/sanity.types";
+import { client } from "@/sanity/lib/client";
 import { urlFor } from "@/sanity/lib/image";
 import useStore from "@/store";
 import { useAuth, useUser } from "@clerk/nextjs";
 import { ShoppingBag, Trash } from "lucide-react";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import toast from "react-hot-toast";
 
 const CartPage = () => {
@@ -35,10 +40,34 @@ const CartPage = () => {
   const groupedItems = useStore((state) => state.getGroupedItems());
   const { isSignedIn } = useAuth();
   const { user } = useUser();
-  // const [addresses, setAddresses] = useState<Address[] | null>(null);
+  const [addresses, setAddresses] = useState<Address[] | null>(null);
   const [selectedAddress, setSelectedAddress] = useState<Address | null>(null);
   const [selectedPaymentMethod, setSelectedPaymentMethod] =
     useState<string>("cash");
+
+  const fetchAddresses = async () => {
+    setLoading(true);
+    try {
+      const query = `*[_type=="address"] | order(publishedAt desc)`;
+      const data = await client.fetch(query);
+      setAddresses(data);
+      const defaultAddress = data.find((addr: Address) => addr.default);
+      if (defaultAddress) {
+        setSelectedAddress(defaultAddress);
+      } else if (data.length > 0) {
+        setSelectedAddress(data[0]);
+      }
+    } catch (error) {
+      console.log("Address fetch error", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchAddresses();
+  }, []);
+
   const handleResetCart = () => {
     const confirmed = window.confirm(
       "Are you sure you want to empty your cart?"
@@ -162,13 +191,79 @@ const CartPage = () => {
                       <h2 className="text-xl font-semibold mb-4">
                         Order Summary
                       </h2>
+
                       <div className="space-y-4">
-                        <div className="">
+                        <div className="flex items-center justify-between">
                           <span>Subtotal</span>{" "}
                           <PriceFormatter amount={getSubTotalPrice()} />
                         </div>
+                        <div className="flex items-center justify-between">
+                          <span>Discount</span>
+                          <PriceFormatter
+                            amount={getSubTotalPrice() - getTotalPrice()}
+                          />
+                        </div>
+                        <Separator />
+                        <div className="flex items-center justify-between font-semibold text-lg">
+                          <span>Total:</span>
+                          <PriceFormatter
+                            amount={getTotalPrice()}
+                            className="font-bold text-lg text-black"
+                          />
+                        </div>
+                        <Button
+                          className="w-full rounded-full font-semibold tracking-wide capitalize hoverEffect"
+                          size="lg"
+                        >
+                          {loading ? "Please wait..." : "Proceed to checkout"}
+                        </Button>
                       </div>
                     </div>
+                    <>
+                      {addresses && (
+                        <div className="bg-white rounded-md mt-5">
+                          <Card>
+                            <CardHeader>
+                              <CardTitle>Delivery address</CardTitle>
+                            </CardHeader>
+                            <CardContent>
+                              <RadioGroup
+                                defaultValue={addresses
+                                  ?.find((addr) => addr.default)
+                                  ?._id.toString()}
+                              >
+                                {addresses?.map((address) => (
+                                  <div
+                                    key={address?._id}
+                                    onClick={() => setSelectedAddress(address)}
+                                    className={`flex items-center space-x-2 mb-4 cursor-pointer ${selectedAddress?._id === address?._id && "text-shop_dark_green"}`}
+                                  >
+                                    <RadioGroupItem
+                                      value={address?._id.toString()}
+                                    />
+                                    <Label
+                                      htmlFor={`address-${address?._id}`}
+                                      className="grid gap-1.5 flex-1"
+                                    >
+                                      <span className="font-semibold">
+                                        {address?.name}
+                                      </span>
+                                      <span className="text-sm text-black/60 ">
+                                        {address.address}, {address.city},{" "}
+                                        {address.state}, {address.zip}{" "}
+                                      </span>
+                                    </Label>
+                                  </div>
+                                ))}
+                              </RadioGroup>
+                              <Button variant="outline" className="w-full mt-4">
+                                Add new address
+                              </Button>
+                            </CardContent>
+                          </Card>
+                        </div>
+                      )}
+                    </>
                   </div>
                 </div>
                 {/* order summary fopr mobile view */}
