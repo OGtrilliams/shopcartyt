@@ -10,7 +10,8 @@ import PriceFormatter from "./PriceFormatter";
 import QuantityBtn from "./QuantityBtn";
 
 interface Props {
-  product: Product;
+  // @ts-ignore
+  product: any;
   className?: string;
 }
 

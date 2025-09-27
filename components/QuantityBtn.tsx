@@ -10,7 +10,7 @@ interface Props {
   className?: string;
 }
 
-const QuantityBtn = ({ product, className }) => {
+const QuantityBtn = ({ product, className }: Props) => {
   const { addItem, removeItem, getItemCount } = useStore();
   const itemCount = getItemCount(product?._id);
   const isOutOfStock = product?.stock === 0;
