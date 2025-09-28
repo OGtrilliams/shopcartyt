@@ -91,11 +91,11 @@ const CartPage = () => {
         address: selectedAddress,
       };
       const checkoutUrl = await createCheckoutSession(groupedItems, metadata);
-      console.log(checkoutUrl);
+      // console.log(checkoutUrl);
 
-      // if (checkoutUrl) {
-      //   window.location.href = checkoutUrl;
-      // }
+      if (checkoutUrl) {
+        window.location.href = checkoutUrl;
+      }
     } catch (error) {
       console.error("Error creating checkout session:", error);
     } finally {
