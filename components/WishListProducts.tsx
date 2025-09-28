@@ -10,6 +10,7 @@ import Image from "next/image";
 import { urlFor } from "@/sanity/lib/image";
 import PriceFormatter from "./PriceFormatter";
 import AddToCartBtn from "./AddToCartBtn";
+import { Product } from "@/sanity.types";
 
 const WishListProducts = () => {
   const [visibleProducts, setVisibleProducts] = useState(7);

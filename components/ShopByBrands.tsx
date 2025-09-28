@@ -13,13 +13,13 @@ const extraData = [
     icon: <Truck size={45} />,
   },
   {
-    title: "Free Return",
+    title: "Free Returns",
     description: "Free shipping over $100",
     icon: <GitCompareArrows size={45} />,
   },
   {
     title: "Customer Support",
-    description: "Friendly 27/7 customer support",
+    description: "Friendly 24/7 customer support",
     icon: <Headset size={45} />,
   },
   {

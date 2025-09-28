@@ -24,15 +24,16 @@ export async function createCheckoutSession(
   metadata: Metadata
 ) {
   try {
-    // retrieve existing customer or create new customer
+    // Retrieve existing customer or create a new one
     const customers = await stripe.customers.list({
       email: metadata.customerEmail,
       limit: 1,
     });
     const customerId = customers?.data?.length > 0 ? customers.data[0].id : "";
+
     const sessionPayload: Stripe.Checkout.SessionCreateParams = {
       metadata: {
-        orderNumber: metadata?.orderNumber,
+        orderNumber: metadata.orderNumber,
         customerName: metadata.customerName,
         customerEmail: metadata.customerEmail,
         clerkUserId: metadata.clerkUserId!,
@@ -44,14 +45,16 @@ export async function createCheckoutSession(
       invoice_creation: {
         enabled: true,
       },
-      success_url: `${process.env.NEXT_PUBLIC_BASE_URL}/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${metadata.orderNumber}`,
-      cancel_url: `${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
+      success_url: `http://${
+        process.env.NEXT_PUBLIC_BASE_URL
+      }/success?session_id={CHECKOUT_SESSION_ID}&orderNumber=${metadata.orderNumber}`,
+      cancel_url: `http://${process.env.NEXT_PUBLIC_BASE_URL}/cart`,
       line_items: items?.map((item) => ({
         price_data: {
           currency: "USD",
           unit_amount: Math.round(item?.product?.price! * 100),
           product_data: {
-            name: item?.product?.name || "Unknown product",
+            name: item?.product?.name || "Unknown Product",
             description: item?.product?.description,
             metadata: { id: item?.product?._id },
             images:
@@ -65,9 +68,14 @@ export async function createCheckoutSession(
     };
     if (customerId) {
       sessionPayload.customer = customerId;
+    } else {
+      sessionPayload.customer_email = metadata.customerEmail;
     }
+
+    const session = await stripe.checkout.sessions.create(sessionPayload);
+    return session.url;
   } catch (error) {
-    console.error("Error creating checkouyt session:", error);
+    console.error("Error creating Checkout Session", error);
     throw error;
   }
 }
