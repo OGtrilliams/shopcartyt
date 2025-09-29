@@ -1,3 +1,4 @@
+import { defineQuery } from "next-sanity";
 import { sanityFetch } from "../lib/live";
 import {
   BLOG_CATEGORIES,
@@ -90,6 +91,7 @@ const getBrand = async (slug: string) => {
     return null;
   }
 };
+
 const getMyOrders = async (userId: string) => {
   try {
     const orders = await sanityFetch({
