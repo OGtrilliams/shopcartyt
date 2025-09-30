@@ -24,7 +24,7 @@ const OrdersPage = async () => {
   return (
     <div>
       <Container className="py-10">
-        {!orders?.length ? (
+        {orders?.length ? (
           <Card className="w-full">
             <CardHeader>
               <CardTitle>Order List</CardTitle>
